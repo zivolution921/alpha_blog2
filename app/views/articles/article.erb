@@ -1,0 +1,12 @@
+<h1>Welcome, @<%= current_user.username %></h1>
+<a href="articles/new">Create Article</a>
+<h2>Articles</h2>
+<% @articles.each do |article| %>
+  <a href="articles/<%= article.id %>">
+    <div>
+      <h2>@<%= article.user.username %>:</h2>
+      <%= article.description %>
+    </div>
+  </a>
+  <hr>
+<% end %>
