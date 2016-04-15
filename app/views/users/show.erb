@@ -1,0 +1,8 @@
+<h1>Welcome, @<%= current_user.username %></h1>
+  <a href="/articles/new">Create Article</a>
+<br><br>
+<h2>Your Articles:</h2>
+  <% @user.articles.each do |article| %>
+    <a href="/articles/<%= article.id %>"><%= article.description %></a>
+    <hr>
+  <% end %>
