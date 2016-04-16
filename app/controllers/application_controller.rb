@@ -67,7 +67,7 @@ class ApplicationController < Sinatra::Base
     end
     
     def current_user
-      User.find(session[:user_id])
+      Author.find(session[:user_id])
     end
     
     def auth_redirect(path)

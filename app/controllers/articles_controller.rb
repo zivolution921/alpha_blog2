@@ -1,43 +1,67 @@
 class ArticlesController < ApplicationController
   
-  def index
+  get '/articles' do
     @articles = Article.all
+    auth_erb('articles/article')
   end
 
-  def new
-    @article = Article.new
+  get 'articles/new' do
+    auth_erb('articles/create_article')
+    #@article = Article.new
   end
 
-  def edit
-    @article = Article.find(params[:id])
-  end
-
-  def create
-    @article = Article.new(article_params)
-    if @article.save
+  post '/articles/new' do
+    article = Article.new(:description => params[:description])
+    if valid_artile?(article)
+      article.save
+      current_user.articles << article
+      current_user.save
+      auth_redirect("articles/#{article.id}")
       flash[:notice] = "Article was created"
-      redirect_to article_path(@article)
     else
-      render 'new'
+      redirect '/articles/new'
     end
   end
 
-  def update
+  get 'articles/:id' do
+    @article = Article.find(params[:id]) if logged_in?
+    auth_erb('articles/show_article')
+  end
+
+  delete '/articles/:id/delete' do
     @article = Article.find(params[:id])
-      if @article.update(article_params)
-        flash[:notice] = "Article was successfully updated"
-        redirect_to article_path(@article)
-      else
-        render 'edit'
+    if current_user == @article.user && logged_in?
+      @article.delete
+      redirect '/article'
+    else
+      redirect '/login'
+    end
+  end
+
+  get '/articles/:id/edit' do
+    if logged_in?
+      @article = Article.find(params[:id])
+      if @article.user == current_user
+        erb :'articles/edit_article'
       end
-  end
-
-  def show
-    @article = Article.find(params[:id])
-  end
-
-  private
-    def article_params
-      params.require(:article).permit(:title, :description)
+    else
+      redirect '/login'
     end
+  end
+
+  patch '/articles/:id' do
+    @article = Article.find(params[:id])
+    if params[:description].length > 0
+      article.update(:description => params[:description])
+      auth_erb('articles/show_article')
+    else
+      redirect 'articles/#{params[:id]}/edit'
+    end
+  end
+
+  helpers do
+    def valid_article?(article)
+      article.description.length > 0
+    end
+  end
 end
