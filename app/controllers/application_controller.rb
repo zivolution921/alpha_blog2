@@ -17,17 +17,17 @@ class ApplicationController < Sinatra::Base
   
   get '/signup' do 
     if logged_in? 
-      redirect '/articles'
+      redirect '/'
     else
       erb :'users/create_user'
     end
   end
   
   post '/signup' do 
-    user = User.new(:username => params[:username], :email => params[:email], :password => params[:password])
+    user =  Author.new(:username => params[:username], :email => params[:email], :password => params[:password])
     if user.save && valid_user?(user)
       session[:user_id] = user.id
-      redirect '/articles'
+      redirect '/'
     else
       redirect '/signup'
     end
@@ -42,7 +42,7 @@ class ApplicationController < Sinatra::Base
   end
   
   post '/login' do 
-    user = User.find_by(:username => params[:username])
+    user = Author.find_by(:username => params[:username])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       redirect '/articles'

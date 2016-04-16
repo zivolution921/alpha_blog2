@@ -1,7 +1,7 @@
 <h1>Showing Selected Article</h1>
 
 <h2>
-<a href="/users/<%=@article.user.slug %>">@<%=@article.user.username%></a></h2>
+<a href="/users/<%=@article.author.slug %>">@<%=@article.author.username%></a></h2>
 <p>
   Title: <%= @article.title %>
 </p>
@@ -9,14 +9,15 @@
 <p>
   Description: <%= @article.description %>
 </p>
-<% if @article.user == current_user %>
-  <a href="/article/<%= @article.id %>/edit">Edit Article</a>
+<% if @article.author == current_user %>
+  <a href="/articles/<%= @article.id %>/edit">Edit Article</a>
 <% end %>
 <br><br>
-<form method="post" action="/article/<%=@article.id%>/delete">
+
+<form method="post" action="/articles/<%=@article.id%>">
   <input type="hidden" id="hidden" name="_method" value="DELETE">
   <input type="submit" value="Delete Article">
 </form>
 
-<a href="/articles">Back to articles listing</a>
+<a href="/">Back to articles listing</a>
 

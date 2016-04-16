@@ -10,8 +10,8 @@
   <tr>
     <td><%= article.title %></td>
     <td><%= article.description %></td>
-    <td><a href="/articles/edit/:id">Edit</a></td>
-    <td><a href="/articles/show">Show</a></td>
+    <td><a href="/articles/<%= article.id %>/edit">Edit</a></td>
+    <td><a href="/articles/<%= article.id %>">Show</a></td>
   </tr>
   <% end %>
 </table>
