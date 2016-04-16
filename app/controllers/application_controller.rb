@@ -10,8 +10,9 @@ class ApplicationController < Sinatra::Base
     set :session_secret, "alpha blog secret"
   end
 
-  get '/' do 
-    erb :index
+  get '/' do
+    @articles = Article.all
+    erb :"articles/index"
   end
   
   get '/signup' do 

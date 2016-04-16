@@ -8,10 +8,10 @@
 
   <% @articles.each do |article| %>
   <tr>
-    <td><%= artile.title %></td>
+    <td><%= article.title %></td>
     <td><%= article.description %></td>
-    <td><%= <a href="/articles/edit/:id">Edit</a> %></td>
-    <td><%= <a href="/articles/show">Show</a> %></td>
+    <td><a href="/articles/edit/:id">Edit</a></td>
+    <td><a href="/articles/show">Show</a></td>
   </tr>
   <% end %>
 </table>

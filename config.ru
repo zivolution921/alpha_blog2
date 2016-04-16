@@ -9,5 +9,6 @@ end
 
 use Rack::MethodOverride
 
+use ArticlesController
 
 run ApplicationController
