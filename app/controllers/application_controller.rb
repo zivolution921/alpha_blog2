@@ -11,8 +11,12 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/' do
-    @articles = Article.all
-    erb :"articles/index"
+    if logged_in?
+      @articles = Article.all
+      erb :"articles/index"
+    else
+      redirect '/signup'
+    end
   end
   
   get '/signup' do 
@@ -53,7 +57,7 @@ class ApplicationController < Sinatra::Base
   
   get '/logout' do 
     if logged_in? 
-      session.clear
+      session[:user_id] = nil
       redirect '/login'
     else
       redirect '/'

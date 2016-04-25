@@ -8,13 +8,11 @@ class ArticlesController < ApplicationController
   get '/articles/new' do
     @article = Article.new
     auth_erb('articles/create_article')
-    
   end
 
   post '/articles/new' do
     article = Article.new(:title => params[:title], :description => params[:description])
-    if article.valid?(article)
-      puts "created"
+    if article.valid?
       article.save!
       current_user.articles << article
       current_user.save
@@ -22,6 +20,7 @@ class ArticlesController < ApplicationController
       auth_redirect("articles/#{article.id}")
       
     else
+      session['error'] = article.errors.full_messages.join("\n")
       redirect '/articles/new'
     end
   end
@@ -55,11 +54,11 @@ class ArticlesController < ApplicationController
   patch '/articles/:id' do
     @article = Article.find(params[:id])
 
-    if params[:description].present? && params[:title].present?
-      @article.update(description: params[:description], title: params[:title])
+    if @article.update(description: params[:description], title: params[:title])
       auth_erb('articles/show_article')
     else
-      redirect 'articles/#{params[:id]}/edit'
+      session['error'] = @article.errors.full_messages.join("\n")
+      redirect "articles/#{params[:id]}/edit"
     end
   end
 

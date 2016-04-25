@@ -1,15 +1,8 @@
+<div>
+  <p><%= session['error'] %><% session['error'] = nil %></p>
+</div>
+
 <h1>Edit existing article</h1>
-
-  <% if @article.errors.any? %>
-
-    <h2>The following errors prevented the article from getting created</h2>
-      <ul>
-        <% @article.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-
-  <% end %>
 
 <form action="/articles/<%=@article.id%>" method="post">
 <input id="hidden" type="hidden" name="_method" value="PATCH">
@@ -21,4 +14,4 @@
   <input type="submit" value="submit">
 </form>
 
-<a href="/articles">Back to articles listing</a>
+<a href="/">Back to articles listing</a>

@@ -1,19 +1,14 @@
-<h1>Create an article</h1>
+<div>
+  <p><%= session['error'] %><% session['error'] = nil %></p>
+</div>
 
-<% if @article.errors.any? %>
-  <h2>The following errors prevented the articles from getting created</h2>
-  <ul>
-    <% @article.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %> 
-  </ul> 
-<% end %>
+<h1>Create an article</h1>
 
 <form action="/articles/new" method="POST">
   <label for="">Title:</label>
   <input type="text" name="title">
   <label for="">Description:</label>
-  <input type="text" name="description">
+  <textarea placeholder="Description" name="description"></textarea>
   <br></br>
   <input type="submit" value="submit">
 </form>
